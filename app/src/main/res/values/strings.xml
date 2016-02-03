@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MamieJeanne</string>
+    <string name="title_activity_hue">HueActivity</string>
 </resources>

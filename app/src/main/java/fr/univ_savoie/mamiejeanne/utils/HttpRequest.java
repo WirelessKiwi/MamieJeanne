@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Iterator;
 
 import fr.univ_savoie.mamiejeanne.beans.Hue;
 
@@ -55,7 +56,7 @@ public class HttpRequest {
     public static JSONObject post(String url, JSONObject jsonObject) {
         InputStream inputStream = null;
         String result = "";
-        JSONObject jsonResult = null;
+        JSONObject jsonResult = new JSONObject();
         try {
 
             // Create HttpClient
@@ -133,10 +134,13 @@ public class HttpRequest {
             HttpResponse httpResponse = httpclient.execute(httpPut);
             inputStream = httpResponse.getEntity().getContent();
 
+            System.out.println("ATTENTION RESULTAT");
             if(inputStream != null) {
                 result = convertInputStreamToString(inputStream);
+                System.out.println(result);
                 jsonResult = new JSONObject(result);
             }
+            System.out.println("FIN RESULTAT");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -174,13 +178,17 @@ public class HttpRequest {
     }
 
     public static JSONArray convertJsonObjectToJsonArray(JSONObject jsonObject) {
-        JSONArray jsonResult = null;
+        JSONArray jsonArray = new JSONArray();
         try {
-            jsonResult = new JSONArray(jsonObject);
+            Iterator iterator = jsonObject.keys();
+            while (iterator.hasNext()){
+                String key = (String) iterator.next();
+                jsonArray.put(jsonObject.get(key));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return jsonResult;
+        return jsonArray;
     }
 }

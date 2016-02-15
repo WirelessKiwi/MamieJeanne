@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="128"
-            android:id="@+id/txtLumiere"
+            android:id="@+id/brightnessSaturationValue"
             android:layout_gravity="center_horizontal" />
 
         <LinearLayout
@@ -92,13 +92,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
-                android:id="@+id/btnLumiereMoins" />
+                android:id="@+id/hueMinus_id" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+"
-                android:id="@+id/btnLumierePlus" />
+                android:id="@+id/huePlus_id" />
         </LinearLayout>
 
         <RelativeLayout

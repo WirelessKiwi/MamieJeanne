@@ -44,7 +44,6 @@ public class DBManager {
 
         while (resultSet.moveToNext()) {
             temperatures.add(new Temperature(resultSet.getInt(0), resultSet.getInt(1), resultSet.getInt(2)));
-            System.out.println(resultSet.getInt(1) + " -- " + resultSet.getInt(2));
         }
         return temperatures;
     }

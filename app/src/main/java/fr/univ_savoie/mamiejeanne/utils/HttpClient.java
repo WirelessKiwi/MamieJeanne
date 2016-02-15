@@ -3,7 +3,7 @@ package fr.univ_savoie.mamiejeanne.utils;
 import com.loopj.android.http.*;
 
 public class HttpClient {
-    private static final String BASE_URL = "http://192.168.1.44:3000";
+    private static final String BASE_URL = "http://192.168.140.191";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 

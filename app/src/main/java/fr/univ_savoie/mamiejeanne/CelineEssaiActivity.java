@@ -8,7 +8,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
+import cz.msebera.android.httpclient.message.BasicHeader;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 public class CelineEssaiActivity extends AppCompatActivity {
 
@@ -26,6 +35,7 @@ public class CelineEssaiActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("on create Celine Activity");
         setContentView(R.layout.activity_celine_essai);
 
         //Associate buttons with actions
@@ -34,6 +44,12 @@ public class CelineEssaiActivity extends AppCompatActivity {
 
         Button btnMoins = (Button) findViewById(R.id.btnMoins);
         btnMoins.setOnClickListener(new ClicMoins());
+
+        Button btnPriseOn = (Button) findViewById(R.id.btnPrise);
+        btnPriseOn.setOnClickListener(new PriseListener("on"));
+
+        Button btnPriseOff = (Button) findViewById(R.id.btnPriseOff);
+        btnPriseOff.setOnClickListener(new PriseListener("off"));
 
         //Record temperature every DELAY ms
         temperatureRecordHandler = new Handler();
@@ -124,5 +140,45 @@ public class CelineEssaiActivity extends AppCompatActivity {
             TextView txtTemperature = (TextView) findViewById(R.id.txtTemperature);
             txtTemperature.setText(Integer.toString(temperature));
         }
+    }
+
+    private class PriseListener implements View.OnClickListener {
+
+        private String state = "off";
+
+        public PriseListener(String state) {
+            super();
+            this.state = state;
+        }
+
+        @Override
+        public void onClick(View v) {
+            AsyncHttpClient myClient = new AsyncHttpClient();
+            myClient.setBasicAuth("stretch", "mwnghcck");
+            try {
+                StringEntity entity = new StringEntity("<relay><state>" + this.state + "</state></relay>");
+                entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/x-www-form-urlencoded"));
+                myClient.put(getApplicationContext(), "http://192.168.140.191/core/appliances/7f027c2d84f141299be1220c73f99481/relay", entity, "application/x-www-form-urlencoded", new HandlerPrises());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class HandlerPrises extends TextHttpResponseHandler {
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            System.out.println("fail with request");
+            System.out.println("statusCode = " + statusCode);
+            System.out.println("responseString = " + responseString);
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            System.out.println("success with request");
+            System.out.println("responseString = " + responseString);
+        }
+
     }
 }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -13,13 +14,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import fr.univ_savoie.mamiejeanne.beans.Hue;
 import fr.univ_savoie.mamiejeanne.beans.Light;
+import fr.univ_savoie.mamiejeanne.utils.Constants;
 import fr.univ_savoie.mamiejeanne.utils.HttpClient;
 
 public class HueActivity extends AppCompatActivity {
@@ -36,7 +40,6 @@ public class HueActivity extends AppCompatActivity {
 
         // Initializations
         this.initializeHue();
-        this.initializeLights();
 
         // Listener buttons
         final Button buttonHueMinus = (Button) findViewById(R.id.hueMinus_id);
@@ -51,15 +54,26 @@ public class HueActivity extends AppCompatActivity {
      */
     public void initializeHue() {
         this.hue = new Hue();
-        RequestParams params = new RequestParams();
-        params.put("devicetype", "my_hue_app#mamieJeanne");
-        HttpClient.post("/api", params, new JsonHttpResponseHandler() {
+        this.lights = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("devicetype", "my_hue_app#mamieJeanne");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity(jsonObject.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        HttpClient.post(getApplicationContext(), "/api", entity, "application/json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 try {
                     JSONObject username = new JSONObject(response.getJSONObject(0).getString("success"));
                     hue.setUsername(username.getString("username"));
-                    System.out.println(hue.getUsername());
+                    initializeLights();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -72,8 +86,6 @@ public class HueActivity extends AppCompatActivity {
      * with state characteristics
      */
     public void initializeLights() {
-        this.lights = new ArrayList<>();
-
         HttpClient.get("/api/" + hue.getUsername() + "/lights", null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -134,53 +146,101 @@ public class HueActivity extends AppCompatActivity {
      * @param increase
      */
     public void huePutLights(final boolean increase) {
-        RequestParams params = new RequestParams();
-        String uri = "/api/" + this.hue.getUsername() + "/lights/";
+        final String base_uri = "/api/" + this.hue.getUsername() + "/lights/";
 
-        for (int i = 0; i < this.lights.size(); i++) {
-            Light light = this.lights.get(i);
-            int brightness = light.getBrightness();
-            int saturation = light.getSaturation();
+        StringEntity entity = null;
+        JSONObject jsonObject = new JSONObject();
 
-            if (increase) {
-                System.err.println("INCREASE");
-                if (!light.isOn()) {
-                    System.err.println("ALLUMER");
-                    params.put("on", true);
-                } else if (brightness < 254) {
-                    System.err.println("AUGMENTER brightness");
-                    brightness++;
-                    light.setBrightness(brightness);
-                    params.put("bri", brightness);
-                } else if (saturation < 254) {
-                    System.err.println("AUGMENTER saturation");
-                    saturation++;
-                    light.setSaturation(saturation);
-                    params.put("sat", saturation);
-                }
-            } else {
-                if (light.isOn()) {
-                    if (brightness > 1) {
-                        brightness--;
+        if (! this.lights.isEmpty()) {
+            for (int i = 0; i < this.lights.size(); i++) {
+                HttpClient.uri = base_uri;
+
+                Light light = this.lights.get(i);
+                int brightness = light.getBrightness();
+                int saturation = light.getSaturation();
+
+                if (increase) {
+                    if (!light.isOn()) {
+                        try {
+                            light.setBrightness(Constants.BRIGHTNESS_INCREASE);
+                            light.setSaturation(Constants.BRIGHTNESS_INCREASE);
+                            jsonObject.put("bri", Constants.SATURATION_INCREASE);
+                            jsonObject.put("sat", Constants.SATURATION_INCREASE);
+                            jsonObject.put("on", true);
+                            light.setIsOn(true);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (brightness + Constants.BRIGHTNESS_INCREASE < Constants.BRIGHTNESS_MAX) {
+                        brightness = brightness + Constants.BRIGHTNESS_INCREASE;
                         light.setBrightness(brightness);
-                        params.put("bri", brightness);
-                    } else if (saturation > 1) {
-                        saturation--;
+                        try {
+                            jsonObject.put("bri", brightness);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (saturation + Constants.SATURATION_INCREASE < Constants.SATURATION_MAX) {
+                        saturation = saturation + Constants.BRIGHTNESS_INCREASE;
                         light.setSaturation(saturation);
-                        params.put("sat", saturation);
-                    } else {
-                        params.put("on", false);
+                        try {
+                            jsonObject.put("sat", saturation);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    if (light.isOn()) {
+                        if (brightness - Constants.BRIGHTNESS_DECREASE > 1) {
+                            brightness = brightness - Constants.BRIGHTNESS_DECREASE;
+                            light.setBrightness(brightness);
+                            try {
+                                jsonObject.put("bri", brightness);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (saturation - Constants.SATURATION_DECREASE > 1) {
+                            saturation = saturation - Constants.SATURATION_DECREASE;
+                            light.setSaturation(saturation);
+                            try {
+                                jsonObject.put("sat", saturation);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                light.setBrightness(0);
+                                light.setSaturation(0);
+                                jsonObject.put("bri", 0);
+                                jsonObject.put("sat", 0);
+                                jsonObject.put("on", false);
+                                light.setIsOn(false);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
-            }
-            uri += light.getId() + "/state";
 
-            HttpClient.put(uri, params, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    calculateAverage();
+                try {
+                    entity = new StringEntity(jsonObject.toString());
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
-            });
+                HttpClient.uri += light.getId() + "/state";
+
+                HttpClient.put(getApplicationContext(), HttpClient.uri, entity, "application/json", new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        HttpClient.uri = "";
+                        calculateAverage();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                    }
+                });
+            }
         }
     }
 

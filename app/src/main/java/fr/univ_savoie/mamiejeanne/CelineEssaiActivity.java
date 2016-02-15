@@ -18,6 +18,8 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import cz.msebera.android.httpclient.message.BasicHeader;
 import cz.msebera.android.httpclient.protocol.HTTP;
+import fr.univ_savoie.mamiejeanne.beans.Temperature;
+import fr.univ_savoie.mamiejeanne.database.DBManager;
 
 public class CelineEssaiActivity extends AppCompatActivity {
 

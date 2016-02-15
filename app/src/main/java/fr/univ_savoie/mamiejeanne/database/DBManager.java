@@ -1,9 +1,11 @@
-package fr.univ_savoie.mamiejeanne;
+package fr.univ_savoie.mamiejeanne.database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+
+import fr.univ_savoie.mamiejeanne.beans.Temperature;
 
 
 public class DBManager {

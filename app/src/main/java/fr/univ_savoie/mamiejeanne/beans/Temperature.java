@@ -1,4 +1,4 @@
-package fr.univ_savoie.mamiejeanne;
+package fr.univ_savoie.mamiejeanne.beans;
 
 /**
  * Created by celinederoland on 2/3/16.

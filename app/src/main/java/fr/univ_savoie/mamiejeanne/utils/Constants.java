@@ -10,4 +10,5 @@ public class Constants {
     public static int SATURATION_DECREASE = 100;
     public static int BRIGHTNESS_MAX = 254;
     public static int SATURATION_MAX = 254;
+    public static int BRIGHTNESS_SATURATION_MAX = BRIGHTNESS_MAX + SATURATION_MAX;
 }

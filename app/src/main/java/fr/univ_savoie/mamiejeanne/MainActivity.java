@@ -28,7 +28,7 @@ import fr.univ_savoie.mamiejeanne.utils.HttpClient;
 public class MainActivity extends AppCompatActivity {
     public Hue hue;
     public List<Light> lights;
-    public int averageBrightnessSaturation;
+    public int percentageBrightnessSaturation;
     public int averageBrightness;
     public int averageSaturation;
 
@@ -130,11 +130,11 @@ public class MainActivity extends AppCompatActivity {
         this.averageBrightness = sumBrightness / this.lights.size();
         this.averageSaturation = sumSaturation / this.lights.size();
 
-        this.averageBrightnessSaturation = this.averageSaturation + this.averageBrightness;
+        this.percentageBrightnessSaturation = (int) (((double) this.averageSaturation + (double) this.averageBrightness) / (double) Constants.BRIGHTNESS_SATURATION_MAX * 100);
 
         // Set average on the view
         TextView brightnessSaturationValue = (TextView) findViewById(R.id.brightnessSaturationValue);
-        brightnessSaturationValue.setText(Integer.toString(averageBrightnessSaturation));
+        brightnessSaturationValue.setText(Integer.toString(percentageBrightnessSaturation));
     }
 
     /**
@@ -260,11 +260,11 @@ public class MainActivity extends AppCompatActivity {
         averageBrightness = sumBrightness / this.lights.size();
         averageSaturation = sumSaturation / this.lights.size();
 
-        this.averageBrightnessSaturation = this.averageSaturation + this.averageBrightness;
+        this.percentageBrightnessSaturation = (int) (((double) this.averageSaturation + (double) this.averageBrightness) / (double) Constants.BRIGHTNESS_SATURATION_MAX * 100);
 
         // Set average on the view
         TextView brightnessSaturationValue = (TextView) findViewById(R.id.brightnessSaturationValue);
-        brightnessSaturationValue.setText(Integer.toString(averageBrightnessSaturation));
+        brightnessSaturationValue.setText(Double.toString(percentageBrightnessSaturation));
     }
 
     /**********************

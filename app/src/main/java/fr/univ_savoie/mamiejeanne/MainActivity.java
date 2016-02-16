@@ -169,18 +169,18 @@ public class MainActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    } else if (brightness + Constants.BRIGHTNESS_INCREASE < Constants.BRIGHTNESS_MAX) {
+                    } else if (brightness + Constants.BRIGHTNESS_INCREASE < Constants.BRIGHTNESS_MAX
+                            && saturation + Constants.SATURATION_INCREASE < Constants.SATURATION_MAX) {
+                        // Brightness
                         brightness = brightness + Constants.BRIGHTNESS_INCREASE;
                         light.setBrightness(brightness);
-                        try {
-                            jsonObject.put("bri", brightness);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else if (saturation + Constants.SATURATION_INCREASE < Constants.SATURATION_MAX) {
+
+                        // Saturation
                         saturation = saturation + Constants.BRIGHTNESS_INCREASE;
                         light.setSaturation(saturation);
+
                         try {
+                            jsonObject.put("bri", brightness);
                             jsonObject.put("sat", saturation);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -188,18 +188,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else {
                     if (light.isOn()) {
-                        if (brightness - Constants.BRIGHTNESS_DECREASE > 1) {
+                        if (brightness - Constants.BRIGHTNESS_DECREASE > 1
+                                && saturation - Constants.SATURATION_DECREASE > 1) {
+                            // Brightness
                             brightness = brightness - Constants.BRIGHTNESS_DECREASE;
                             light.setBrightness(brightness);
-                            try {
-                                jsonObject.put("bri", brightness);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else if (saturation - Constants.SATURATION_DECREASE > 1) {
+
+                            // Saturation
                             saturation = saturation - Constants.SATURATION_DECREASE;
                             light.setSaturation(saturation);
+
                             try {
+                                jsonObject.put("bri", brightness);
                                 jsonObject.put("sat", saturation);
                             } catch (JSONException e) {
                                 e.printStackTrace();

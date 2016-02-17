@@ -40,7 +40,7 @@ public class LightController {
 
         @Override
         public void onClick(View v) {
-            brightnessHueValue.setText(Integer.toString(lampService.huePutLights(true)));
+            brightnessHueValue.setText(Integer.toString(lampService.huePutLights(false)));
         }
     }
 

@@ -38,15 +38,25 @@ public class PriseService {
     }
 
     private void turnPrise(String newState, HandlerPrises handlerPrises) {
-        AsyncHttpClient myClient = new AsyncHttpClient();
+        /*AsyncHttpClient myClient = new AsyncHttpClient();
         myClient.setBasicAuth("stretch", "mwnghcck");
         try {
             StringEntity entity = new StringEntity("<relay><state>" + newState + "</state></relay>");
             entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/x-www-form-urlencoded"));
-            myClient.put(this.context, "http://192.168.140.191/core/appliances/" + this.idPrise + "/relay", entity, "application/x-www-form-urlencoded", handlerPrises);
+            myClient.put(
+                    this.context,
+                    "http://192.168.140.191/core/appliances/" + this.idPrise + "/relay",
+                    entity,
+                    "application/x-www-form-urlencoded",
+                    handlerPrises
+            );
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }
+        }*/
+        // MOCK //
+        System.out.println("PriseService.turnPrise to " + newState);
+        priseState = newState;
+        /////////
     }
 
     public boolean isOff() {

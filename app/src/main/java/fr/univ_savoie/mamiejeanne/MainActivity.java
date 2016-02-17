@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         final Button btnPlus = (Button) findViewById(R.id.btnTemperaturePlus);
         btnPlus.setOnClickListener(this.temperatureController.clicPlusListener);
 
-        final Button btnMoins = (Button) findViewById(R.id.btnMoins);
+        final Button btnMoins = (Button) findViewById(R.id.btnTemperatureMoins);
         btnMoins.setOnClickListener(this.temperatureController.clicMoinsListener);
     }
 

@@ -37,13 +37,14 @@ public class LampService {
     public LampService(Context context) {
         this.context = context;
     }
+
     /**
      * Method to initialize hue
      */
     public void initializeHue() {
         this.hue = new Hue();
         this.lights = new ArrayList<>();
-        JSONObject jsonObject = new JSONObject();
+        /*JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("devicetype", "my_hue_app#mamieJeanne");
         } catch (JSONException e) {
@@ -66,7 +67,10 @@ public class LampService {
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
+        // MOCK //
+        initializeLights();
+        //////////
     }
 
     /**
@@ -74,12 +78,15 @@ public class LampService {
      * with state characteristics
      */
     public void initializeLights() {
-        HttpClient.get("/api/" + hue.getUsername() + "/lights", null, new JsonHttpResponseHandler() {
+        /*HttpClient.get("/api/" + hue.getUsername() + "/lights", null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 bindLights(response);
             }
-        });
+        });*/
+        // MOCK //
+        bindLights(null);
+        //////////
     }
 
     /**
@@ -91,7 +98,7 @@ public class LampService {
     public void bindLights(JSONObject jsonObject) {
         int sumBrightness = 0;
         int sumSaturation = 0;
-        Iterator iterator = jsonObject.keys();
+        /*Iterator iterator = jsonObject.keys();
         while (iterator.hasNext()) {
             JSONObject jsonState = null;
             String key = (String) iterator.next();
@@ -118,6 +125,13 @@ public class LampService {
         // Calculate average brightness and saturation with all lights
         this.averageBrightness = sumBrightness / this.lights.size();
         this.averageSaturation = sumSaturation / this.lights.size();
+        */
+
+        // MOCK //
+        this.averageSaturation++;
+        this.averageBrightness++;
+        //////////
+
 
         this.percentageBrightnessSaturation = (int) (((double) this.averageSaturation + (double) this.averageBrightness) / (double) Constants.BRIGHTNESS_SATURATION_MAX * 100);
     }
@@ -129,7 +143,7 @@ public class LampService {
      * @param increase
      */
     public int huePutLights(final boolean increase) {
-        final String base_uri = "/api/" + this.hue.getUsername() + "/lights/";
+        /*final String base_uri = "/api/" + this.hue.getUsername() + "/lights/";
 
         StringEntity entity = null;
         JSONObject jsonObject = new JSONObject();
@@ -224,7 +238,20 @@ public class LampService {
                     }
                 });
             }
+        }*/
+
+        // MOCK //
+        if (increase) {
+            System.out.println("LampService.huePutLights +");
+            this.averageBrightness++;
+            this.averageSaturation++;
+        } else {
+            System.out.println("LampService.huePutLights -");
+            this.averageBrightness--;
+            this.averageSaturation--;
         }
+        this.calculateAverage();
+        //////////
 
         return this.percentageBrightnessSaturation;
     }
@@ -234,7 +261,7 @@ public class LampService {
      * luminosity and update view
      */
     private void calculateAverage() {
-        int sumBrightness = 0;
+        /*int sumBrightness = 0;
         int sumSaturation = 0;
         for (int i = 0; i < this.lights.size(); i++) {
             Light light = this.lights.get(i);
@@ -245,8 +272,11 @@ public class LampService {
         }
 
         averageBrightness = sumBrightness / this.lights.size();
-        averageSaturation = sumSaturation / this.lights.size();
+        averageSaturation = sumSaturation / this.lights.size();*/
 
+        // MOCK //
+
+        //////////
         this.percentageBrightnessSaturation = (int) (((double) this.averageSaturation + (double) this.averageBrightness) / (double) Constants.BRIGHTNESS_SATURATION_MAX * 100);
 
     }

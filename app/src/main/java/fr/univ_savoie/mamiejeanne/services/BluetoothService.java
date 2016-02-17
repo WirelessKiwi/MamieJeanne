@@ -6,10 +6,16 @@ package fr.univ_savoie.mamiejeanne.services;
 public class BluetoothService {
 
     public int getTemperature() {
+
+        // MOCK //
         return (int) Math.floor(Math.random()*15 + 15);
+        //////////
     }
 
     public int getIgrometrie() {
+
+        // MOCK //
         return (int) Math.floor(Math.random()*30 + 20);
+        //////////
     }
 }

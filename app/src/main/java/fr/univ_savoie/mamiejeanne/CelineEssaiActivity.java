@@ -60,8 +60,8 @@ public class CelineEssaiActivity extends AppCompatActivity {
         temperatureRetrieveHandler = new Handler();
         temperatureRetrieveHandler.postDelayed(temperatureRetrieveRunnable, TEMPERATURE_RETRIEVE_DELAY);
 
-        verifHandler = new Handler();
-        verifHandler.postDelayed(verifRunnable, VERIF_DELAY);
+        temperatureVerifHandler = new Handler();
+        temperatureVerifHandler.postDelayed(temperatureVerifRunnable, VERIF_DELAY);
 
         //create database manager
         db = openOrCreateDatabase(databaseName, MODE_APPEND, null);
@@ -105,8 +105,8 @@ public class CelineEssaiActivity extends AppCompatActivity {
         }
     };
 
-    private Handler verifHandler;
-    private Runnable verifRunnable = new Runnable() {
+    private Handler temperatureVerifHandler;
+    private Runnable temperatureVerifRunnable = new Runnable() {
 
         @Override
         public void run() {
@@ -114,7 +114,7 @@ public class CelineEssaiActivity extends AppCompatActivity {
             // Code à éxécuter de façon périodique
             manager.getTemperatures();
 
-            verifHandler.postDelayed(this, VERIF_DELAY);
+            temperatureVerifHandler.postDelayed(this, VERIF_DELAY);
         }
     };
 

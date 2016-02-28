@@ -4,6 +4,8 @@ package fr.univ_savoie.mamiejeanne.utils;
  * Created by juliana on 15/02/2016.
  */
 public class Constants {
+    // Pour la luminosité
+    public static String LIGHT_IP = "192.168.1.44:3000";
     public static int BRIGHTNESS_INCREASE = Constants.BRIGHTNESS_MAX / 10;
     public static int SATURATION_INCREASE = Constants.SATURATION_MAX / 10;
     public static int BRIGHTNESS_DECREASE = Constants.BRIGHTNESS_MAX / 10;

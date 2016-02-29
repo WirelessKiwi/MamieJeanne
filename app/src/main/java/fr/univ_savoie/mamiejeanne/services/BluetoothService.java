@@ -1,7 +1,7 @@
 package fr.univ_savoie.mamiejeanne.services;
 
-import fr.univ_savoie.mamiejeanne.utils.IReactIgrometrie;
-import fr.univ_savoie.mamiejeanne.utils.IReactTemperature;
+import fr.univ_savoie.mamiejeanne.callbacks.IReactIgrometrie;
+import fr.univ_savoie.mamiejeanne.callbacks.IReactTemperature;
 
 /**
  * Created by celinederoland on 2/17/16.

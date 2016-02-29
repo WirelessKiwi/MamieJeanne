@@ -13,7 +13,7 @@ import fr.univ_savoie.mamiejeanne.database.DBManager;
 import fr.univ_savoie.mamiejeanne.services.BluetoothService;
 import fr.univ_savoie.mamiejeanne.services.PriseService;
 import fr.univ_savoie.mamiejeanne.utils.Constants;
-import fr.univ_savoie.mamiejeanne.utils.IReactTemperature;
+import fr.univ_savoie.mamiejeanne.callbacks.IReactTemperature;
 
 /**
  * Created by celinederoland on 2/17/16.

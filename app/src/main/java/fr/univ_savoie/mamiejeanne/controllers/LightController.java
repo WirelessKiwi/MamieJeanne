@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
-import fr.univ_savoie.mamiejeanne.ILight;
+import fr.univ_savoie.mamiejeanne.callbacks.ILight;
 import fr.univ_savoie.mamiejeanne.services.LampService;
 
 /**

@@ -2,30 +2,16 @@ package fr.univ_savoie.mamiejeanne;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
 import fr.univ_savoie.mamiejeanne.beans.Hue;
+import fr.univ_savoie.mamiejeanne.callbacks.ILight;
 import fr.univ_savoie.mamiejeanne.controllers.IgrometrieController;
 import fr.univ_savoie.mamiejeanne.controllers.LightController;
 import fr.univ_savoie.mamiejeanne.controllers.TemperatureController;
-import fr.univ_savoie.mamiejeanne.utils.Constants;
-import fr.univ_savoie.mamiejeanne.utils.HttpClient;
 
 
 public class MainActivity extends AppCompatActivity {

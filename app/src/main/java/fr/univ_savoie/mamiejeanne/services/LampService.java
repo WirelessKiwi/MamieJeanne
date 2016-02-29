@@ -16,7 +16,7 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
-import fr.univ_savoie.mamiejeanne.ILight;
+import fr.univ_savoie.mamiejeanne.callbacks.ILight;
 import fr.univ_savoie.mamiejeanne.beans.Hue;
 import fr.univ_savoie.mamiejeanne.beans.Light;
 import fr.univ_savoie.mamiejeanne.utils.HttpClient;

@@ -2,13 +2,12 @@ package fr.univ_savoie.mamiejeanne.controllers;
 
 import android.content.Context;
 import android.os.Handler;
-import android.view.View;
 import android.widget.TextView;
 
 import fr.univ_savoie.mamiejeanne.services.BluetoothService;
 import fr.univ_savoie.mamiejeanne.services.PriseService;
 import fr.univ_savoie.mamiejeanne.utils.Constants;
-import fr.univ_savoie.mamiejeanne.utils.IReactIgrometrie;
+import fr.univ_savoie.mamiejeanne.callbacks.IReactIgrometrie;
 
 /**
  * Created by celinederoland on 2/17/16.

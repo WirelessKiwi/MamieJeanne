@@ -1,4 +1,4 @@
-package fr.univ_savoie.mamiejeanne;
+package fr.univ_savoie.mamiejeanne.callbacks;
 
 /**
  * Created by juliana on 29/02/2016.

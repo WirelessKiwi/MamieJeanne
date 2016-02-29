@@ -21,10 +21,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        this.initializeTemperature();
-        this.initializeIgrometrie();
         this.initializeLight();
+        //this.initializeTemperature();
+        //this.initializeIgrometrie();
 
     }
 
@@ -54,14 +53,21 @@ public class MainActivity extends AppCompatActivity {
 
         this.lightController = new LightController(
                 this.getApplicationContext(),
-                (TextView) findViewById(R.id.brightnessSaturationValue)
+                (TextView) findViewById(R.id.brightnessSaturationValue),
+                new Light()
         );
+    }
 
-        final Button buttonHueMinus = (Button) findViewById(R.id.hueMinus_id);
-        buttonHueMinus.setOnClickListener(this.lightController.clickMinusListener);
+    public class Light implements ILight {
+        public void setButtons() {
+            lightController.brightnessHueValue.setText(Integer.toString(lightController.lampService.getPercentageBrightnessSaturation()));
 
-        final Button buttonHuePlus = (Button) findViewById(R.id.huePlus_id);
-        buttonHuePlus.setOnClickListener(this.lightController.clickPlusListener);
+            final Button buttonHueMinus = (Button) findViewById(R.id.hueMinus_id);
+            buttonHueMinus.setOnClickListener(lightController.clickMinusListener);
+
+            final Button buttonHuePlus = (Button) findViewById(R.id.huePlus_id);
+            buttonHuePlus.setOnClickListener(lightController.clickPlusListener);
+        }
     }
 
 }

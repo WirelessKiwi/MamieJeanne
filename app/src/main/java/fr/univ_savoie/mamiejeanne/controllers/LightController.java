@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
+import fr.univ_savoie.mamiejeanne.IAverageLight;
+import fr.univ_savoie.mamiejeanne.ILight;
 import fr.univ_savoie.mamiejeanne.services.LampService;
 
 /**
@@ -13,17 +15,17 @@ public class LightController {
 
 
     private final Context applicationContext;
-    private final TextView brightnessHueValue;
+    public final TextView brightnessHueValue;
     public View.OnClickListener clickMinusListener = new ClickButtonHueMinus();
     public View.OnClickListener clickPlusListener = new ClickButtonHuePlus();
-    private LampService lampService;
+    public LampService lampService;
 
-    public LightController(Context context, TextView brightnessHueValue) {
+    public LightController(Context context, TextView brightnessHueValue, ILight light) {
 
         this.applicationContext = context;
         this.brightnessHueValue = brightnessHueValue;
         this.lampService = new LampService(this.applicationContext);
-        lampService.initializeHue();
+        lampService.initializeHue(light);
         brightnessHueValue.setText(Integer.toString(lampService.getPercentageBrightnessSaturation()));
     }
 
@@ -31,8 +33,7 @@ public class LightController {
 
         @Override
         public void onClick(View v) {
-            brightnessHueValue.setText(Integer.toString(lampService.huePutLights(true)));
-
+            lampService.huePutLights(true, new Light());
         }
     }
 
@@ -40,7 +41,14 @@ public class LightController {
 
         @Override
         public void onClick(View v) {
-            brightnessHueValue.setText(Integer.toString(lampService.huePutLights(false)));
+            lampService.huePutLights(false, new Light());
+        }
+    }
+
+    public class Light implements IAverageLight {
+        public void setAverage() {
+            System.out.println(lampService.getPercentageBrightnessSaturation());
+            brightnessHueValue.setText(Integer.toString(lampService.getPercentageBrightnessSaturation()));
         }
     }
 

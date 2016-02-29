@@ -16,6 +16,8 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import fr.univ_savoie.mamiejeanne.IAverageLight;
+import fr.univ_savoie.mamiejeanne.ILight;
 import fr.univ_savoie.mamiejeanne.beans.Hue;
 import fr.univ_savoie.mamiejeanne.beans.Light;
 import fr.univ_savoie.mamiejeanne.requests.HttpClient;
@@ -41,7 +43,7 @@ public class LampService {
     /**
      * Method to initialize hue
      */
-    public void initializeHue() {
+    public void initializeHue(final ILight light) {
         this.hue = new Hue();
         this.lights = new ArrayList<>();
         JSONObject jsonObject = new JSONObject();
@@ -62,7 +64,9 @@ public class LampService {
                 try {
                     JSONObject username = new JSONObject(response.getJSONObject(0).getString("success"));
                     hue.setUsername(username.getString("username"));
+                    System.out.println("===========================================");
                     initializeLights();
+                    light.setButtons();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -134,7 +138,7 @@ public class LampService {
      *
      * @param increase
      */
-    public int huePutLights(final boolean increase) {
+    public int huePutLights(final boolean increase, final IAverageLight iAverageLight) {
         final String base_uri = "/api/" + this.hue.getUsername() + "/lights/";
 
         StringEntity entity = null;
@@ -222,6 +226,7 @@ public class LampService {
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         HttpClient.uri = "";
                         calculateAverage();
+                        iAverageLight.setAverage();
                     }
 
                     @Override

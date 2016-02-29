@@ -26,7 +26,7 @@ public class Constants {
     public static final String PRISES_STATE_ON = "on";
     public static final String PRISES_STATE_OFF = "off";
     public static final String PRISES_ID_TEMPERATURE = "00636707cfa2422cb0ef28a7ec98ef03";
-    public static final String PRISES_ID_IGROMETRIE = "30e25fe8d9d2404eb6c4a5ccaa08fad9";
+    public static final String PRISES_ID_IGROMETRIE = "11da93b75017489cb78b8856dec44d2a";
 
 
 }

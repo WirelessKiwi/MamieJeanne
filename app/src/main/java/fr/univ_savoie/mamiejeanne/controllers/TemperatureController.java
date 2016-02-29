@@ -13,6 +13,7 @@ import fr.univ_savoie.mamiejeanne.database.DBManager;
 import fr.univ_savoie.mamiejeanne.services.BluetoothService;
 import fr.univ_savoie.mamiejeanne.services.PriseService;
 import fr.univ_savoie.mamiejeanne.utils.Constants;
+import fr.univ_savoie.mamiejeanne.utils.IReactTemperature;
 
 /**
  * Created by celinederoland on 2/17/16.
@@ -82,6 +83,20 @@ public class TemperatureController {
         }
     };
 
+    public class MyReactTemperature implements IReactTemperature {
+
+        @Override
+        public void react(int temperatureReelle) {
+            if (temperatureReelle <= temperature && priseService.isOff()) {
+                priseService.turnPriseOn();
+            } else if (temperatureReelle > temperature && priseService.isOn()) {
+                priseService.turnPriseOff();
+            }
+
+            temperatureVerifHandler.postDelayed(TemperatureController.this.temperatureVerifRunnable, Constants.TEMPERATURE_VERIF_DELAY);
+        }
+    }
+
     //Toutes les 5 minutes, on éteind la prise si la température réelle est > à la température souhaitée
     //Et sinon on l'allume.
     private Runnable temperatureVerifRunnable = new Runnable() {
@@ -89,15 +104,7 @@ public class TemperatureController {
         @Override
         public void run() {
 
-            int temperatureReelle = bluetoothService.getTemperature();
-
-            if (temperatureReelle <= temperature && priseService.isOff()) {
-                priseService.turnPriseOn();
-            } else if (temperatureReelle > temperature && priseService.isOn()) {
-                priseService.turnPriseOff();
-            }
-
-            temperatureVerifHandler.postDelayed(this, Constants.TEMPERATURE_VERIF_DELAY);
+            bluetoothService.getTemperature(new MyReactTemperature());
         }
     };
 

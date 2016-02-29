@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +23,7 @@ import cz.msebera.android.httpclient.entity.StringEntity;
 import fr.univ_savoie.mamiejeanne.beans.Hue;
 import fr.univ_savoie.mamiejeanne.beans.Light;
 import fr.univ_savoie.mamiejeanne.utils.Constants;
-import fr.univ_savoie.mamiejeanne.utils.HttpClient;
+import fr.univ_savoie.mamiejeanne.requests.HttpClient;
 
 public class HueActivity extends AppCompatActivity {
 

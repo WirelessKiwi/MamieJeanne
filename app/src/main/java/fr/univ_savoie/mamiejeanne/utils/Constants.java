@@ -4,10 +4,12 @@ package fr.univ_savoie.mamiejeanne.utils;
  * Created by juliana on 15/02/2016.
  */
 public class Constants {
-    public static int BRIGHTNESS_INCREASE = Constants.BRIGHTNESS_MAX / 10;
-    public static int SATURATION_INCREASE = Constants.SATURATION_MAX / 10;
-    public static int BRIGHTNESS_DECREASE = Constants.BRIGHTNESS_MAX / 10;
-    public static int SATURATION_DECREASE = Constants.SATURATION_MAX / 10;
+    // Pour la luminosité
+    public static String LIGHT_IP = "192.168.140.167";
+    public static int BRIGHTNESS_INCREASE = 25;
+    public static int SATURATION_INCREASE = 25;
+    public static int BRIGHTNESS_DECREASE = 25;
+    public static int SATURATION_DECREASE = 25;
     public static int BRIGHTNESS_MAX = 254;
     public static int SATURATION_MAX = 254;
     public static int BRIGHTNESS_SATURATION_MAX = BRIGHTNESS_MAX + SATURATION_MAX;
@@ -23,8 +25,8 @@ public class Constants {
     //Pour les prises
     public static final String PRISES_STATE_ON = "on";
     public static final String PRISES_STATE_OFF = "off";
-    public static final String PRISES_ID_TEMPERATURE = "7f027c2d84f141299be1220c73f99481";
-    public static final String PRISES_ID_IGROMETRIE = "uneautreid";
+    public static final String PRISES_ID_TEMPERATURE = "00636707cfa2422cb0ef28a7ec98ef03";
+    public static final String PRISES_ID_IGROMETRIE = "30e25fe8d9d2404eb6c4a5ccaa08fad9";
 
 
 }

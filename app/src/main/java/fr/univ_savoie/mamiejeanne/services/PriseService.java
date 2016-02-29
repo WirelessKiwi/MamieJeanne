@@ -38,7 +38,7 @@ public class PriseService {
     }
 
     private void turnPrise(String newState, HandlerPrises handlerPrises) {
-        /*AsyncHttpClient myClient = new AsyncHttpClient();
+        AsyncHttpClient myClient = new AsyncHttpClient();
         myClient.setBasicAuth("stretch", "mwnghcck");
         try {
             StringEntity entity = new StringEntity("<relay><state>" + newState + "</state></relay>");
@@ -52,10 +52,11 @@ public class PriseService {
             );
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }*/
+        }
         // MOCK //
+        /*
         System.out.println("PriseService.turnPrise to " + newState);
-        priseState = newState;
+        priseState = newState;*/
         /////////
     }
 

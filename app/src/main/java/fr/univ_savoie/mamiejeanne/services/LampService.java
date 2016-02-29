@@ -66,6 +66,7 @@ public class LampService {
                     hue.setUsername(username.getString("username"));
                     System.out.println("===========================================");
                     initializeLights();
+                    System.out.println("J'ai init lampe ");
                     light.setButtons();
                 } catch (JSONException e) {
                     e.printStackTrace();

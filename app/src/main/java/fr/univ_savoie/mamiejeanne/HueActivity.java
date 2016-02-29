@@ -253,8 +253,6 @@ public class HueActivity extends AppCompatActivity {
         int sumSaturation = 0;
         for (int i = 0; i < this.lights.size(); i++) {
             Light light = this.lights.get(i);
-            System.err.println(light.getBrightness());
-            System.err.println(light.getSaturation());
             sumBrightness += light.getBrightness();
             sumSaturation += light.getSaturation();
         }

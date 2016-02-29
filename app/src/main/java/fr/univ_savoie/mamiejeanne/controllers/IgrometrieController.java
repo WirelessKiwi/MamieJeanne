@@ -8,6 +8,7 @@ import android.widget.TextView;
 import fr.univ_savoie.mamiejeanne.services.BluetoothService;
 import fr.univ_savoie.mamiejeanne.services.PriseService;
 import fr.univ_savoie.mamiejeanne.utils.Constants;
+import fr.univ_savoie.mamiejeanne.utils.IReactIgrometrie;
 
 /**
  * Created by celinederoland on 2/17/16.
@@ -32,6 +33,20 @@ public class IgrometrieController {
         igrometrieVerifHandler.postDelayed(igrometrieVerifRunnable, Constants.IGROMETRIE_VERIF_DELAY);
     }
 
+    public class MyReactIgrometrie implements IReactIgrometrie {
+
+        @Override
+        public void react(int igrometrieReelle) {
+            if (igrometrieReelle <= 50 && prisesIgrometrieState.equals(Constants.PRISES_STATE_OFF)) {
+                priseService.turnPriseOn();
+            } else if (igrometrieReelle > 50 && prisesIgrometrieState.equals(Constants.PRISES_STATE_ON)) {
+                priseService.turnPriseOff();
+            }
+
+            igrometrieVerifHandler.postDelayed(IgrometrieController.this.igrometrieVerifRunnable, Constants.IGROMETRIE_VERIF_DELAY);
+        }
+    }
+
     //Toutes les 5 minutes, on éteind la prise si l'igrométrie réelle est > à 50
     //Et sinon on l'allume.
     private Handler igrometrieVerifHandler;
@@ -40,15 +55,7 @@ public class IgrometrieController {
         @Override
         public void run() {
 
-            int igrometrieReelle = (int) Math.floor(Math.random()*30 + 20); //TODO : remplacer par l'igrométrie scannée par bluetooth
-
-            if (igrometrieReelle <= 50 && prisesIgrometrieState.equals(Constants.PRISES_STATE_OFF)) {
-                priseService.turnPriseOn();
-            } else if (igrometrieReelle > 50 && prisesIgrometrieState.equals(Constants.PRISES_STATE_ON)) {
-                priseService.turnPriseOff();
-            }
-
-            igrometrieVerifHandler.postDelayed(this, Constants.IGROMETRIE_VERIF_DELAY);
+            bluetoothService.getIgrometrie(new MyReactIgrometrie());
         }
     };
 }

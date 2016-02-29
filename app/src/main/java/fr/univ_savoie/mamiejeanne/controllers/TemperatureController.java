@@ -104,7 +104,7 @@ public class TemperatureController {
         @Override
         public void run() {
 
-            int temperatureReelle = bluetoothService.getTemperature(new MyReactTemperature());
+            bluetoothService.getTemperature(new MyReactTemperature());
         }
     };
 

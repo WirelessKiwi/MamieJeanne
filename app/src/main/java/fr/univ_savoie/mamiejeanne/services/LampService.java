@@ -16,11 +16,10 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
-import fr.univ_savoie.mamiejeanne.IAverageLight;
 import fr.univ_savoie.mamiejeanne.ILight;
 import fr.univ_savoie.mamiejeanne.beans.Hue;
 import fr.univ_savoie.mamiejeanne.beans.Light;
-import fr.univ_savoie.mamiejeanne.requests.HttpClient;
+import fr.univ_savoie.mamiejeanne.utils.HttpClient;
 import fr.univ_savoie.mamiejeanne.utils.Constants;
 
 /**
@@ -43,7 +42,7 @@ public class LampService {
     /**
      * Method to initialize hue
      */
-    public void initializeHue(final ILight light) {
+    public void initializeHue(final ILight iLight) {
         this.hue = new Hue();
         this.lights = new ArrayList<>();
         JSONObject jsonObject = new JSONObject();
@@ -64,18 +63,12 @@ public class LampService {
                 try {
                     JSONObject username = new JSONObject(response.getJSONObject(0).getString("success"));
                     hue.setUsername(username.getString("username"));
-                    System.out.println("===========================================");
                     initializeLights();
-                    System.out.println("J'ai init lampe ");
-                    light.setButtons();
+                    iLight.setButtons();
+                    iLight.setAverage();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                hue.setUsername(null);
             }
         });
     }
@@ -110,7 +103,7 @@ public class LampService {
                 jsonState = jsonObject.getJSONObject(key).getJSONObject("state");
 
                 // Initialize light
-                Light light = new Light();
+                fr.univ_savoie.mamiejeanne.beans.Light light = new fr.univ_savoie.mamiejeanne.beans.Light();
                 light.setId(key);
                 light.setIsOn(jsonState.getBoolean("on"));
                 light.setBrightness(jsonState.getInt("bri"));
@@ -139,17 +132,17 @@ public class LampService {
      *
      * @param increase
      */
-    public int huePutLights(final boolean increase, final IAverageLight iAverageLight) {
+    public void huePutLights(final boolean increase, final ILight iLight) {
         final String base_uri = "/api/" + this.hue.getUsername() + "/lights/";
 
         StringEntity entity = null;
         JSONObject jsonObject = new JSONObject();
 
-        if (hue.getUsername() != null && !this.lights.isEmpty()) {
+        if (! this.lights.isEmpty()) {
             for (int i = 0; i < this.lights.size(); i++) {
                 HttpClient.uri = base_uri;
 
-                Light light = this.lights.get(i);
+                final Light light = this.lights.get(i);
                 int brightness = light.getBrightness();
                 int saturation = light.getSaturation();
 
@@ -172,7 +165,7 @@ public class LampService {
                         light.setBrightness(brightness);
 
                         // Saturation
-                        saturation = saturation + Constants.BRIGHTNESS_INCREASE;
+                        saturation = saturation + Constants.SATURATION_INCREASE;
                         light.setSaturation(saturation);
 
                         try {
@@ -227,7 +220,8 @@ public class LampService {
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         HttpClient.uri = "";
                         calculateAverage();
-                        iAverageLight.setAverage();
+                        iLight.setButtons();
+                        iLight.setAverage();
                     }
 
                     @Override
@@ -237,8 +231,6 @@ public class LampService {
                 });
             }
         }
-
-        return this.percentageBrightnessSaturation;
     }
 
     /**
@@ -249,7 +241,7 @@ public class LampService {
         int sumBrightness = 0;
         int sumSaturation = 0;
         for (int i = 0; i < this.lights.size(); i++) {
-            Light light = this.lights.get(i);
+            fr.univ_savoie.mamiejeanne.beans.Light light = this.lights.get(i);
             System.err.println(light.getBrightness());
             System.err.println(light.getSaturation());
             sumBrightness += light.getBrightness();
@@ -260,6 +252,7 @@ public class LampService {
         averageSaturation = sumSaturation / this.lights.size();
 
         this.percentageBrightnessSaturation = (int) (((double) this.averageSaturation + (double) this.averageBrightness) / (double) Constants.BRIGHTNESS_SATURATION_MAX * 100);
+
 
     }
 

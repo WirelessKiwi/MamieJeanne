@@ -9,7 +9,7 @@ import com.loopj.android.http.RequestParams;
 import cz.msebera.android.httpclient.HttpEntity;
 
 public class HttpClient {
-    private static final String BASE_URL = "http://192.168.140.167";
+    private static final String BASE_URL = "http://" + Constants.LIGHT_IP;
     public static String uri = "";
 
     private static AsyncHttpClient client = new AsyncHttpClient();

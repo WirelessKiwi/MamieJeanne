@@ -20,12 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private IgrometrieController igrometrieController;
     private LightController lightController;
 
-    public Hue hue;
-    public List<fr.univ_savoie.mamiejeanne.beans.Light> lights;
-    public int percentageBrightnessSaturation;
-    public int averageBrightness;
-    public int averageSaturation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

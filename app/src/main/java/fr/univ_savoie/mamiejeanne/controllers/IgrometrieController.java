@@ -36,6 +36,9 @@ public class IgrometrieController {
 
         @Override
         public void react(int igrometrieReelle) {
+            System.out.println("MyReactIgrometrie.react");
+            System.out.println("igrometrieReelle = " + igrometrieReelle);
+            txtIgrometrie.setText(Integer.toString(igrometrieReelle));
             if (igrometrieReelle <= 50 && prisesIgrometrieState.equals(Constants.PRISES_STATE_OFF)) {
                 priseService.turnPriseOn();
             } else if (igrometrieReelle > 50 && prisesIgrometrieState.equals(Constants.PRISES_STATE_ON)) {

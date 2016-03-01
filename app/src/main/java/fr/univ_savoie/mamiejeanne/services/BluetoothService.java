@@ -19,6 +19,7 @@ public class BluetoothService {
 
     public int getIgrometrie(IReactIgrometrie reactIgrometrie) {
 
+        System.out.println("BluetoothService.getIgrometrie");
         reactIgrometrie.react((int) Math.floor(Math.random()*15 + 15));
         // MOCK //
         //return (int) Math.floor(Math.random()*30 + 20);

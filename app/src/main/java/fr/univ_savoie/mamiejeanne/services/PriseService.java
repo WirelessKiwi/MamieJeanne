@@ -13,9 +13,6 @@ import cz.msebera.android.httpclient.message.BasicHeader;
 import cz.msebera.android.httpclient.protocol.HTTP;
 import fr.univ_savoie.mamiejeanne.utils.Constants;
 
-/**
- * Created by celinederoland on 2/17/16.
- */
 public class PriseService {
 
     private String idPrise;

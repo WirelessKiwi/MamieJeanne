@@ -7,9 +7,6 @@ import android.widget.TextView;
 import fr.univ_savoie.mamiejeanne.callbacks.ILight;
 import fr.univ_savoie.mamiejeanne.services.LampService;
 
-/**
- * Created by celinederoland on 2/17/16.
- */
 public class LightController {
 
 

@@ -1,9 +1,7 @@
 package fr.univ_savoie.mamiejeanne.utils;
 
-/**
- * Created by juliana on 15/02/2016.
- */
 public class Constants {
+
     // Pour la luminosité
     public static String LIGHT_IP = "192.168.140.167";
     public static int BRIGHTNESS_INCREASE = 25;

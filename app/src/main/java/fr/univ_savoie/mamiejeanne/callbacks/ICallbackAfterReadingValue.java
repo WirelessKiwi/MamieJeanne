@@ -1,9 +1,6 @@
 package fr.univ_savoie.mamiejeanne.callbacks;
 
-/**
- * Created by celinederoland on 2/29/16.
- */
-public interface IReactTemperature {
+public interface ICallbackAfterReadingValue {
 
     public void react(int temperature);
 }

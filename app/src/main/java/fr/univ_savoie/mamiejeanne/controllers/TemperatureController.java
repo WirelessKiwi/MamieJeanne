@@ -13,11 +13,8 @@ import fr.univ_savoie.mamiejeanne.database.DBManager;
 import fr.univ_savoie.mamiejeanne.services.BluetoothService;
 import fr.univ_savoie.mamiejeanne.services.PriseService;
 import fr.univ_savoie.mamiejeanne.utils.Constants;
-import fr.univ_savoie.mamiejeanne.callbacks.IReactTemperature;
+import fr.univ_savoie.mamiejeanne.callbacks.ICallbackAfterReadingValue;
 
-/**
- * Created by celinederoland on 2/17/16.
- */
 public class TemperatureController {
 
     private String databaseName = "TemperaturesDatabase";
@@ -29,15 +26,17 @@ public class TemperatureController {
     private PriseService priseService;
     public View.OnClickListener clicMoinsListener = new ClicTemperatureMoins();
     public View.OnClickListener clicPlusListener = new ClicTemperaturePlus();
-    private BluetoothService bluetoothService = new BluetoothService();
+    private BluetoothService bluetoothService;
     private Handler temperatureRecordHandler;
     private Handler temperatureRetrieveHandler;
     private Handler temperatureVerifHandler;
 
 
-    public TemperatureController(Context context, TextView txtTemperature) {
+    public TemperatureController(Context context, TextView txtTemperature, BluetoothService bluetoothService) {
 
         this.applicationContext = context;
+        this.bluetoothService = bluetoothService;
+        this.bluetoothService.setAfterReadingValue(new MyReactTemperature());
         this.txtTemperature = txtTemperature;
         this.priseService = new PriseService(Constants.PRISES_ID_TEMPERATURE, context);
 
@@ -83,7 +82,7 @@ public class TemperatureController {
         }
     };
 
-    public class MyReactTemperature implements IReactTemperature {
+    public class MyReactTemperature implements ICallbackAfterReadingValue {
 
         @Override
         public void react(int temperatureReelle) {
@@ -104,7 +103,7 @@ public class TemperatureController {
         @Override
         public void run() {
 
-            bluetoothService.getTemperature(new MyReactTemperature());
+            bluetoothService.getValue();
         }
     };
 

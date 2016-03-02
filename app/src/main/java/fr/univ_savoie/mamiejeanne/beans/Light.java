@@ -1,6 +1,7 @@
 package fr.univ_savoie.mamiejeanne.beans;
 
 public class Light {
+
     private String id;
     private boolean isOn;
     private int brightness;

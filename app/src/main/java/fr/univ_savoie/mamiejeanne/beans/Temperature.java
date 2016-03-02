@@ -1,8 +1,5 @@
 package fr.univ_savoie.mamiejeanne.beans;
 
-/**
- * Created by celinederoland on 2/3/16.
- */
 public class Temperature {
 
     private int id = 0;

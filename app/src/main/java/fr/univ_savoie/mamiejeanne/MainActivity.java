@@ -1,5 +1,7 @@
 package fr.univ_savoie.mamiejeanne;
 
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -12,6 +14,8 @@ import fr.univ_savoie.mamiejeanne.callbacks.ILight;
 import fr.univ_savoie.mamiejeanne.controllers.IgrometrieController;
 import fr.univ_savoie.mamiejeanne.controllers.LightController;
 import fr.univ_savoie.mamiejeanne.controllers.TemperatureController;
+import fr.univ_savoie.mamiejeanne.services.BluetoothService;
+import fr.univ_savoie.mamiejeanne.utils.flowerpower.FlowerPowerConstants;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -19,11 +23,25 @@ public class MainActivity extends AppCompatActivity {
     private TemperatureController temperatureController;
     private IgrometrieController igrometrieController;
     private LightController lightController;
+    private BluetoothService temperatureBluetoothService;
+    private BluetoothService igrometrieBluetoothService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        this.temperatureBluetoothService = new BluetoothService(
+                bluetoothManager,
+                this,
+                FlowerPowerConstants.CHARACTERISTIC_UUID_TEMPERATURE
+        );
+        this.igrometrieBluetoothService = new BluetoothService(
+                bluetoothManager,
+                this,
+                FlowerPowerConstants.CHARACTERISTIC_UUID_SOIL_MOISTURE
+        );
 
         this.initializeLight();
         this.initializeTemperature();
@@ -34,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
         this.temperatureController = new TemperatureController(
                 this.getApplicationContext(),
-                (TextView) findViewById(R.id.txtTemperature)
+                (TextView) findViewById(R.id.txtTemperature),
+                this.temperatureBluetoothService
         );
 
         final Button btnPlus = (Button) findViewById(R.id.btnTemperaturePlus);
@@ -48,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
         this.igrometrieController = new IgrometrieController(
                 this.getApplicationContext(),
-                (TextView) findViewById(R.id.txtIgrometrie)
+                (TextView) findViewById(R.id.txtIgrometrie),
+                this.igrometrieBluetoothService
         );
     }
 

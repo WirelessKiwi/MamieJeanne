@@ -4,14 +4,11 @@ import android.content.Context;
 import android.os.Handler;
 import android.widget.TextView;
 
+import fr.univ_savoie.mamiejeanne.callbacks.ICallbackAfterReadingValue;
 import fr.univ_savoie.mamiejeanne.services.BluetoothService;
 import fr.univ_savoie.mamiejeanne.services.PriseService;
 import fr.univ_savoie.mamiejeanne.utils.Constants;
-import fr.univ_savoie.mamiejeanne.callbacks.IReactIgrometrie;
 
-/**
- * Created by celinederoland on 2/17/16.
- */
 public class IgrometrieController {
 
     private final int igrometrie = 50;
@@ -19,20 +16,23 @@ public class IgrometrieController {
     private Context applicationContext;
     private TextView txtIgrometrie;
     private PriseService priseService;
-    private BluetoothService bluetoothService = new BluetoothService();
+    private BluetoothService bluetoothService;
 
-    public IgrometrieController(Context context, TextView txtIgrometrie) {
+    public IgrometrieController(Context context, TextView txtIgrometrie, BluetoothService bluetoothService) {
 
         this.applicationContext = context;
+        this.bluetoothService = bluetoothService;
+        this.bluetoothService.setAfterReadingValue(new MyReactIgrometrie());
         this.txtIgrometrie = txtIgrometrie;
         this.priseService = new PriseService(Constants.PRISES_ID_IGROMETRIE, context);
+
 
         //Tâches répétitives pour l'igrométrie
         igrometrieVerifHandler = new Handler();
         igrometrieVerifHandler.postDelayed(igrometrieVerifRunnable, Constants.IGROMETRIE_VERIF_DELAY);
     }
 
-    public class MyReactIgrometrie implements IReactIgrometrie {
+    public class MyReactIgrometrie implements ICallbackAfterReadingValue {
 
         @Override
         public void react(int igrometrieReelle) {
@@ -57,7 +57,7 @@ public class IgrometrieController {
         @Override
         public void run() {
 
-            bluetoothService.getIgrometrie(new MyReactIgrometrie());
+            bluetoothService.getValue();
         }
     };
 }

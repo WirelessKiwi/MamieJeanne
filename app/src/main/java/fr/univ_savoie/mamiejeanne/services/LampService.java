@@ -22,9 +22,6 @@ import fr.univ_savoie.mamiejeanne.beans.Light;
 import fr.univ_savoie.mamiejeanne.utils.HttpClient;
 import fr.univ_savoie.mamiejeanne.utils.Constants;
 
-/**
- * Created by celinederoland on 2/17/16.
- */
 public class LampService {
 
     private Hue hue;
